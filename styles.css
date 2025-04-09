@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color:  rgba(124, 169, 130, .8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+h1{
+    background-color:rgb(36,62,54,1);
+    color: rgb(241,247,237);
+    margin-bottom: 40px;       
+}
+h2 {
+    margin-bottom: 30px;
+}
+
+input, button {
+    margin: 5px;
+    padding: 3px;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+button.add {
+    background-color: rgb(224,238,198);
+    color: rgb(0, 0, 0);
+}
+
+
+button.edit {
+    background-color: rgb(224,238,198);
+    color: black;
+}
+
+button.delete {
+    background-color: rgb(194,168,62);
+    color: rgb(241,247,237);
+    
+}
+button:hover{
+    background-color: rgb(118, 133, 89);
+
+
+}
+button.delete:hover{
+    background-color: rgba(106, 92, 37, 0.7)
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 2px solid #000000;
+}
+
+th, td {
+    padding: 7px;
+    text-align: center;
+    color: rgb(241,247,237);
+
+}
+
+th {
+    background-color:rgb(36,62,54,1);
+    color: rgb(241,247,237);
+}
+
+.form-container h3 {
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: #333;
+}
+
+#searchName {
+    padding: 8px;
+    width: 200px;
+    margin-right: 10px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+}
+
+#searchGrade {
+    padding: 8px;
+    background-color: rgb(224,238,198);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#searchGrade:hover {
+    background-color: rgb(118, 133, 89);
+}
+
+#searchResult {
+    margin-top: 10px;
+    font-weight: bold;
+    color: rgb(194,168,62);
+}

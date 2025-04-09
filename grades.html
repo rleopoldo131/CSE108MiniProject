@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grades Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Lab 07 Grades</h1>
+
+    <div class="form-container">
+        <input type="text" id="studentName" placeholder="Student Name">
+        <input type="number" id="studentGrade" placeholder="Grade">
+        <button id="addGrade" class="add">Add Grade</button>
+
+   
+        <h3>Search Grade by Name</h3>
+        <input type="text" id="searchName" placeholder="Enter student name">
+        <button id="searchGrade">Search</button>
+        <p id="searchResult"></p>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="gradesTableBody">
+            <!-- Grades will be inserted here -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>
