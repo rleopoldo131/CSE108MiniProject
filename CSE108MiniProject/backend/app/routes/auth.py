@@ -3,10 +3,18 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
 from sqlalchemy.orm import scoped_session
 
+
+
+
+
 from ..models import User
 from ..database import Session
 
 bp = Blueprint('auth', __name__)
+
+@bp.route('/')
+def home():
+    return redirect('/login')
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():

@@ -10,14 +10,19 @@ from .admin_panel import init_admin
 db = SQLAlchemy()
 login_manager = LoginManager()
 
+
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'frontend', 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'frontend', 'static')
+
 def create_app():
     app = Flask(
         __name__,
-        template_folder=os.path.abspath('../../frontend/templates'),
-        static_folder=os.path.abspath('../../frontend/static')
+        template_folder=TEMPLATE_DIR,
+        static_folder=STATIC_DIR
     )
 
-    app.config.from_pyfile('../../config.py')
+    app.config.from_pyfile(os.path.join(BASE_DIR, 'config.py'))
 
     db.init_app(app)
     login_manager.init_app(app)
