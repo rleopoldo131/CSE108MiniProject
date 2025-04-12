@@ -1,7 +1,8 @@
 # CSE108MiniProject
 CSE108 Mini Project 
-use the pip install -r backend/requirements.txt command to be able to install the required libraries for pip
-in case you install more: pip freeze > backend/requirements.txt
+use the pip install -r backend/requirements.txt command to be able to install the required libraries
+in case you install more:
+pip freeze > backend/requirements.txt
 
 
 -  **Flask (Python)** for backend API
@@ -9,7 +10,7 @@ in case you install more: pip freeze > backend/requirements.txt
 -  **SQLite** for datasbse storage
 -   Role-based UI pages (Teacher, Student, Admin)
 
-## 📦 Project Structure
+## Project Structure
 
 
 ### 1. Backend Setup
@@ -34,7 +35,7 @@ npm start
   #  "version": "0.1.0",
   #  "private": true,
   #  "proxy": "http://localhost:5000",
-```
+
 
 API endpoints
 so far from lab 6
@@ -44,7 +45,7 @@ POST	 /api/grades	        Add a new grade
 PUT    	 /api/grades/<name>	    Update a grade
 DELETE	 /api/grades/<name>	    Delete a grade
 GET	     /api/grades/<name>	    Get a specific grade
-
+```
 # To run the app
 make two terminals
 one in backend 
@@ -56,5 +57,5 @@ then on the other terminal
 
 npm start
 
-so far there is no protected routes, I just added what we had for lab 6 we can later ass/integrate and clean up the rest
+so far there is no protected routes, I just added what we had for lab 6 we can later add/integrate and clean up the rest
 basic pages
