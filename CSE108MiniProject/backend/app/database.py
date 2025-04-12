@@ -1,5 +1,3 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from flask_sqlalchemy import SQLAlchemy
 
-engine = create_engine('sqlite:///grades.db', echo=True)
-Session = sessionmaker(bind=engine)
+db = SQLAlchemy()

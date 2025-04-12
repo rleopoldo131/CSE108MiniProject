@@ -1,41 +1,28 @@
+
+import sys
 import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
 from flask_cors import CORS
-from .database import engine
-from .models import Base
-from .admin_panel import init_admin
+from app.database import db
+from app.routes.teacher_route import bp as teacher_bp
 
-db = SQLAlchemy()
-login_manager = LoginManager()
-
-
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'frontend', 'templates')
-STATIC_DIR = os.path.join(BASE_DIR, 'frontend', 'static')
 
 def create_app():
-    app = Flask(
-        __name__,
-        template_folder=TEMPLATE_DIR,
-        static_folder=STATIC_DIR
-    )
-
-    app.config.from_pyfile(os.path.join(BASE_DIR, 'config.py'))
+    app = Flask(__name__)
+    app.config.from_object("app.config.Config")
+    
+    CORS(app) #allows our react frontend to make request to our backend
 
     db.init_app(app)
-    login_manager.init_app(app)
-    CORS(app)
-
-    from .routes import auth, student, teacher
-    app.register_blueprint(auth.bp)
-    app.register_blueprint(student.bp)
-    app.register_blueprint(teacher.bp)
+    app.register_blueprint(teacher_bp, url_prefix="/api")
 
     with app.app_context():
-        Base.metadata.create_all(bind=engine)
-
-    init_admin(app)
+        db.create_all()
+        
+    @app.route("/")
+    def hello():
+        return "Flask backend is running."
 
     return app
