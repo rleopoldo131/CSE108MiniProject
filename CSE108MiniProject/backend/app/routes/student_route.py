@@ -3,38 +3,81 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.users import User
-from app.models.course import Course, enrollments
+from app.models.course import Course
 from app import db
 
 bp = Blueprint("student_route", __name__)
 
-@bp.route("/courses", methods=["GET"])
+
+
+@bp.route("/courses/all", methods=["GET"])
 @jwt_required()
 def get_all_courses():
-    courses = Course.query.all()
-    return jsonify([{
-        "id": c.id,
-        "title": c.title,
-        "capacity": c.capacity,
-        "enrolled": len(c.students)
-    } for c in courses]), 200
+    from flask_jwt_extended import get_jwt_identity
+    user_id = get_jwt_identity()
+    print("JWT identity (user_id):", user_id)
 
+    return jsonify([
+        {
+            "id": c.id,
+            "title": c.title,
+            "capacity": c.capacity,
+            "enrolled": len(c.students)
+        }
+        for c in Course.query.all()
+    ]), 200
 
 @bp.route("/student/courses", methods=["GET"])
 @jwt_required()
-def get_my_courses():
-    user_id = get_jwt_identity()
-    student = User.query.get(user_id)
-    return jsonify([{
-        "id": c.id,
-        "title": c.title,
-        "capacity": c.capacity
-    } for c in student.enrolled_courses]), 200
+def get_student_courses():
+    print("✅ BACKEND: hit get_student_courses()")
+
+    student_id = int(get_jwt_identity())  # 
+    print("JWT user ID (from /student/courses):", student_id)
+
+    student = User.query.get(student_id)
+    if not student:
+        return jsonify({"msg": "Student not found"}), 404
+
+    enrolled_courses = student.courses
+    return jsonify([
+        {
+            "id": c.id,
+            "title": c.title,
+            "capacity": c.capacity
+        } for c in enrolled_courses
+    ]), 200
+
+# @bp.route("/student/courses", methods=["GET"])
+# @jwt_required()
+# def get_my_courses():
+#     user_id = get_jwt_identity()
+#     student = User.query.get(user_id)
+#     return jsonify([
+#         {
+#             "id": c.id,
+#             "title": c.title,
+#             "capacity": c.capacity
+#         }
+#         for c in student.courses
+#     ]), 200
+# @bp.route("/student/courses", methods=["GET"])
+# @jwt_required()
+# def get_mystudent_courses():
+#     try:
+#         user_id = get_jwt_identity()
+#         print("JWT user ID (from /student/courses):", user_id)
+#     except Exception as e:
+#         print("JWT error in /student/courses:", str(e))
 
 
-@bp.route("/student/enroll/<int:course_id>", methods=["POST"])
+
+
+@bp.route("/student/enroll", methods=["POST"])
 @jwt_required()
-def enroll_in_course(course_id):
+def enroll_in_course():
+    data = request.get_json()
+    course_id = data.get("course_id")
     user_id = get_jwt_identity()
     student = User.query.get(user_id)
     course = Course.query.get(course_id)
@@ -51,3 +94,19 @@ def enroll_in_course(course_id):
     course.students.append(student)
     db.session.commit()
     return jsonify({"msg": "Enrolled successfully"}), 200
+
+
+@bp.route("/student/drop", methods=["POST"])
+@jwt_required()
+def drop_course():
+    data = request.get_json()
+    course_id = data.get("course_id")
+    user_id = get_jwt_identity()
+    student = User.query.get(user_id)
+    course = Course.query.get(course_id)
+
+    if course in student.courses:
+        student.courses.remove(course)
+        db.session.commit()
+        return jsonify({"msg": "Dropped course"}), 200
+    return jsonify({"msg": "Not enrolled in this course"}), 400

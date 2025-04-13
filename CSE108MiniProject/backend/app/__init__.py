@@ -15,17 +15,19 @@ from flask_admin.form import SecureForm
 from werkzeug.security import generate_password_hash
 from flask_admin.form import Select2Widget
 from wtforms.fields import SelectField
+from flask_jwt_extended import JWTManager,jwt_required, get_jwt_identity
 
 
 from app.models.users import User  #
 from app.models.grade import Grade
-from app.models.course import Course, enrollments
+from app.models.course import Course
 
 from app.database import db
 
 
 from app.routes.teacher_route import bp as teacher_bp
 from app.routes.auth import bp as auth_bp
+from app.routes.student_route import bp as student_bp
 
 
 class UserAdmin(ModelView):
@@ -69,13 +71,17 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object("app.config.Config")
     
-    CORS(app) #allows our react frontend to make request to our backend
+    CORS(app, supports_credentials=True, expose_headers=["Authorization"], allow_headers=["Authorization", "Content-Type"])
 
     db.init_app(app)
+    JWTManager(app)
    
    
     app.register_blueprint(teacher_bp, url_prefix="/api")
     app.register_blueprint(auth_bp, url_prefix="/api")
+    # app.register_blueprint(student_bp, url_prefix="/api")
+    app.register_blueprint(student_bp, url_prefix="/api")
+
     
     admin = Admin(app, name="Admin Panel", template_mode="bootstrap3")
     admin.add_view(UserAdmin(User, db.session))
