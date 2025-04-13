@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './TeacherPage.css';
+// import { useNavigate } from "react-router-dom";
+import LogoutButton from "../../components/LogoutButton/LogoutButton";
+
+
 
 function TeacherPage() {
   const [grades, setGrades] = useState([]);
@@ -7,6 +11,7 @@ function TeacherPage() {
   const [grade, setGrade] = useState('');
   const [searchName, setSearchName] = useState('');
   const [searchResult, setSearchResult] = useState('');
+  
 
   useEffect(() => {
     fetch('/api/grades')
@@ -68,6 +73,7 @@ function TeacherPage() {
       setSearchResult(`${searchName}'s grade is ${data.grade}`);
     }
   };
+  
 
   return (
     <div className="container">
@@ -98,6 +104,8 @@ function TeacherPage() {
           ))}
         </tbody>
       </table>
+      
+        <LogoutButton />
     </div>
   );
 }
