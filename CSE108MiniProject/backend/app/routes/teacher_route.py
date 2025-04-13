@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.grade import Grade
+from app.models.course import Course
 from app.database import db
 
 bp = Blueprint("teacher_routes", __name__)
@@ -42,3 +43,13 @@ def delete_grade(name):
     db.session.delete(student)
     db.session.commit()
     return jsonify({"message": "Grade deleted"})
+
+@bp.route("/teacher/courses", methods=["GET"])
+def get_teacher_courses():
+    teacher_id = request.args.get("teacher_id")  # Get the teacher's ID from the query parameters
+    if not teacher_id:
+        return jsonify({"error": "Teacher ID is required"}), 400
+    courses = Course.query.filter_by(teacher_id=teacher_id).all()
+    if courses:
+        return jsonify([course.to_dict() for course in courses]) 
+    return jsonify({"message": "No courses found for this teacher"}), 404
