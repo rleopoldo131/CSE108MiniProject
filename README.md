@@ -10,7 +10,7 @@ pip freeze > backend/requirements.txt
 
 -  **Flask (Python)** for backend API
 -  **React** for frontend interface
--  **SQLite** for datasbse storage
+-  **SQLite** for database storage
 -   Role-based UI pages (Teacher, Student, Admin)
 
 ## Project Structure
