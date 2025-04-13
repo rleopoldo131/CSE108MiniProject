@@ -15,3 +15,5 @@ class User(db.Model):
     
     password = db.Column(db.String(200), nullable=False)  # hash this
     role = db.Column(db.String(20), nullable=False)  # 'student', 'teacher', 'admin'
+    def __repr__(self):
+        return f"<User {self.username}>"# returns a string (which Flask-Admin expects), not a tuple or a dictionary
