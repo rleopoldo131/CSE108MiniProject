@@ -58,7 +58,7 @@ const Login = () => {
               navigate("/teacherpage");
             } else if (role === "admin") {
               // Flask-Admin is separate, so open in new tab
-              window.location.href = "http://localhost:5000/admin";
+              navigate("/adminpage");
             }
           } catch (err) {
             console.error(err);

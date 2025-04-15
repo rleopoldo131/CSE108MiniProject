@@ -4,6 +4,7 @@ import axios from "axios";
 const AvailableCourses = () => {
   const [allCourses, setAllCourses] = useState([]);
   const [enrolledIds, setEnrolledIds] = useState([]);
+  const [messages, setMessages] = useState({});
 
   const fetchData = async () => {
     const token = localStorage.getItem("token");
@@ -11,7 +12,6 @@ const AvailableCourses = () => {
       console.warn("No token found. User may not be logged in.");
       return;
     }
-    console.log("Sending token:", token);
 
     try {
       const [allRes, myRes] = await Promise.all([
@@ -28,8 +28,6 @@ const AvailableCourses = () => {
           }
         })
       ]);
-      
-    
 
       setAllCourses(allRes.data);
       const myCourseIds = myRes.data.map((course) => course.id);
@@ -41,27 +39,31 @@ const AvailableCourses = () => {
 
   const handleEnroll = async (courseId) => {
     const token = localStorage.getItem("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+    const headers = { Authorization: `Bearer ${token}` };
+
     try {
       await axios.post("/api/student/enroll", { course_id: courseId }, { headers });
-      fetchData(); // refresh state
+      setMessages((prev) => ({ ...prev, [courseId]: "" })); // clear this course's message
+      fetchData();
     } catch (err) {
       console.error("Failed to enroll:", err);
+      const msg = err.response?.data?.msg || "Enrollment failed.";
+      setMessages((prev) => ({ ...prev, [courseId]: msg }));
     }
   };
 
   const handleDrop = async (courseId) => {
     const token = localStorage.getItem("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+    const headers = { Authorization: `Bearer ${token}` };
+
     try {
       await axios.post("/api/student/drop", { course_id: courseId }, { headers });
-      fetchData(); // refresh state
+      setMessages((prev) => ({ ...prev, [courseId]: "" })); // clear message for this course
+      fetchData();
     } catch (err) {
       console.error("Failed to drop course:", err);
+      const msg = err.response?.data?.msg || "Drop failed.";
+      setMessages((prev) => ({ ...prev, [courseId]: msg }));
     }
   };
 
@@ -80,11 +82,16 @@ const AvailableCourses = () => {
             const isEnrolled = enrolledIds.includes(course.id);
             return (
               <li key={course.id}>
-                {course.title} (Enrolled: {course.enrolled}/{course.capacity}){" "}
+                <strong>{course.title}</strong> — Professor: {course.teacher || "Unassigned"}<br />
+                Time: {course.time || "TBD"}<br />
+                Enrolled: {course.enrolled}/{course.capacity}{" "}
                 {isEnrolled ? (
                   <button onClick={() => handleDrop(course.id)}>Drop</button>
                 ) : (
                   <button onClick={() => handleEnroll(course.id)}>Enroll</button>
+                )}
+                {messages[course.id] && (
+                  <p style={{ color: "red", margin: 0 }}>{messages[course.id]}</p>
                 )}
               </li>
             );

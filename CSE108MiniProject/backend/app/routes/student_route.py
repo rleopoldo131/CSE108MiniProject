@@ -13,7 +13,6 @@ bp = Blueprint("student_route", __name__)
 @bp.route("/courses/all", methods=["GET"])
 @jwt_required()
 def get_all_courses():
-    from flask_jwt_extended import get_jwt_identity
     user_id = get_jwt_identity()
     print("JWT identity (user_id):", user_id)
 
@@ -22,10 +21,16 @@ def get_all_courses():
             "id": c.id,
             "title": c.title,
             "capacity": c.capacity,
-            "enrolled": len(c.students)
+            "enrolled": len(c.students),
+            "teacher": f"{c.teacher.firstName} {c.teacher.lastName}" if c.teacher else "Unassigned",
+            "time": c.time or "TBD"
+
+
         }
         for c in Course.query.all()
     ]), 200
+
+
 
 @bp.route("/student/courses", methods=["GET"])
 @jwt_required()
@@ -44,9 +49,12 @@ def get_student_courses():
         {
             "id": c.id,
             "title": c.title,
-            "capacity": c.capacity
+            "capacity": c.capacity,
+            "teacher": f"{c.teacher.firstName} {c.teacher.lastName}" if c.teacher else "Unassigned",
+            "time": c.time or "TBD"
         } for c in enrolled_courses
     ]), 200
+
 
 # @bp.route("/student/courses", methods=["GET"])
 # @jwt_required()

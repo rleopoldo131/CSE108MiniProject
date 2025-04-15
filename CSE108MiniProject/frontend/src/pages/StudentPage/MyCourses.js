@@ -53,9 +53,12 @@ const MyCourses = () => {
         <ul>
           {myCourses.map((course) => (
             <li key={course.id}>
-              {course.title} (Capacity: {course.capacity}){" "}
+              <strong>{course.title}</strong> — Professor: {course.teacher}<br />
+              Time: {course.time}<br />
+              Capacity: {course.capacity}{" "}
               <button onClick={() => handleDrop(course.id)}>Drop</button>
-            </li>
+              </li>
+
           ))}
         </ul>
       )}

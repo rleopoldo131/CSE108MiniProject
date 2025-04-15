@@ -1,19 +1,13 @@
 # models/course.py
 
 from app.database import db
-
-# enrollments = db.Table('enrollments',
-#     db.Column('student_id', db.Integer, db.ForeignKey('user.id')),
-#     db.Column('course_id', db.Integer, db.ForeignKey('course.id'))
-# )
+from app.models.users import User
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    capacity = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.String(100))
+    capacity = db.Column(db.Integer)
+    time = db.Column(db.String(50))
 
-    # If teacher functionality is needed later
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    # Relationship to students enrolled
-    # students = db.relationship('User', secondary=enrollments, backref='enrolled_courses')
+    teacher = db.relationship('User', foreign_keys=[teacher_id])
