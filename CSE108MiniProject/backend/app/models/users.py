@@ -20,9 +20,7 @@ class User(db.Model):
     role = db.Column(db.String(20), nullable=False)  # 'student', 'teacher', 'admin'
     
     courses = db.relationship('Course', secondary=student_courses, backref='students')
-    enrollments = db.relationship('Enrollment', back_populates='student', cascade='all, delete-orphan')
-    courses_taught = db.relationship('Course', back_populates='teacher')
-
+    
     
     def __repr__(self):
         return f"<User {self.username}>"# returns a string (which Flask-Admin expects), not a tuple or a dictionary

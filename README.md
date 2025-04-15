@@ -4,9 +4,6 @@ use the pip install -r backend/requirements.txt command to be able to install th
 in case you install more:
 pip freeze > backend/requirements.txt
 
- Current features, student enrollment add drop courses with page, mycourses page for student,  admin panel to create courses, users, register/login,
- models, user role based, course for classes with capacity,  student_courses which holds student and what class they are enrolled to show in their "myclasses page"
-
 
 -  **Flask (Python)** for backend API
 -  **React** for frontend interface
