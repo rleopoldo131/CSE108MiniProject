@@ -17,9 +17,11 @@ return (
                     <Link to="/register" className="btn">Register </Link>
                    
                     <Link to="/login" className="btn">Login</Link>
+                    <Link to="/Admin" className="btn">Admin Panel</Link>
+
                     {/* <Link for development and see how they will look before adding protected routes*/}
-                    <Link to="/teacherpage" className="btn">Teacher page</Link>
-                    <Link to="/studentpage" className="btn">Student page</Link>
+                    {/* <Link to="/teacherpage" className="btn">Teacher page</Link>
+                    <Link to="/studentpage" className="btn">Student page</Link> */}
               </div>
 
       

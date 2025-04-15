@@ -12,6 +12,9 @@ import StudentPage from './pages/StudentPage/StudentPage';
 import MyCourses from './pages/StudentPage/MyCourses';
 import AvailableCourses from './pages/StudentPage/AvailableCourses';
 
+import Admin from "./pages/Admin/Admin";
+
+
 
 //global style
 import ProtectedRoute from "./components/ProtectedRoutes";
@@ -60,6 +63,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/admin" element={<Admin />} />
+
         </Routes>
     </Router> 
     
