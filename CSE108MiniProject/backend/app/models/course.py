@@ -10,4 +10,4 @@ class Course(db.Model):
     time = db.Column(db.String(50))
 
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    teacher = db.relationship('User', foreign_keys=[teacher_id])
+    teacher = db.relationship('User',  back_populates="teaching_courses", foreign_keys=[teacher_id])
