@@ -18,7 +18,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False) 
     password = db.Column(db.String(200), nullable=False)  # hash this
     role = db.Column(db.String(20), nullable=False)  # 'student', 'teacher', 'admin'
-    teaching_courses = db.relationship("Course", back_populates="teacher", foreign_keys="Course.teacher_id")
+    teaching_courses = db.relationship("Course", back_populates="teacher")
 
     courses = db.relationship('Course', secondary=student_courses, backref='students')
     # enrollments = db.relationship('Enrollment', back_populates='student', cascade='all, delete-orphan')

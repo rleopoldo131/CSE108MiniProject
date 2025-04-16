@@ -17,7 +17,7 @@ def get_grade(name):
     if grade:
         return jsonify(grade.to_dict())
     return jsonify({"error": "Student not found"}), 404
-@app.route('/api/refresh', methods=['POST'])
+@bp.route('/api/refresh', methods=['POST'])
 @jwt_required(refresh=True)
 def refresh():
     current_user = get_jwt_identity()  # Get the current user from the refresh token
@@ -26,30 +26,26 @@ def refresh():
 @bp.route("/teacher/courses", methods=["GET"])
 @jwt_required()
 def get_teacher_courses():
-    # Add debugging log to confirm route was hit
     print("✅ Backend: hit get_teacher_courses()")
 
-    # Get the user ID from the JWT token
-    print(f"Headers: {request.headers}")
-    teacher_id = get_jwt_identity()  # Retrieves the user ID from the JWT token
+    teacher_id = get_jwt_identity()
     print(f"JWT user ID: {teacher_id}")
 
-    # Retrieve the teacher from the database
-    teacher = User.query.get(teacher_id)
+    from sqlalchemy.orm import joinedload
+    teacher = User.query.options(joinedload(User.teaching_courses)).get(teacher_id)
+
     if not teacher:
-        print("Teacher not found!")
         return jsonify({"msg": "Teacher not found"}), 404
 
-    # Retrieve the courses associated with this teacher
-    enrolled_courses = teacher.courses
-    print(f"Enrolled courses: {enrolled_courses}")
+    teaching_courses = teacher.teaching_courses
+    print(f"Teaching course titles: {[c.title for c in teaching_courses]}")
 
-    # Return the list of courses
     return jsonify([
         {
             "id": c.id,
             "title": c.title,
             "teacher": f"{c.teacher.firstName} {c.teacher.lastName}" if c.teacher else "Unassigned",
-            "time": c.time or "TBD"
-        } for c in enrolled_courses
+            "time": c.time or "TBD",
+            "capacity": c.capacity or "N/A"
+        } for c in teaching_courses
     ]), 200
