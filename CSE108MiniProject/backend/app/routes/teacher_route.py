@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify,request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.users import User
 from app.models.course import Course
-from app.models.grade import Grade  # <- also make sure this is imported
+from app.models.grade import Grade  # 
 from app import db
 bp = Blueprint("teacher_route", __name__)
 
