@@ -1,9 +1,12 @@
+# app/models/grade.py
+
 from app.database import db
 
 class Grade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True, nullable=False)
-    grade = db.Column(db.Float, nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
+    grade = db.Column(db.String(5))  # like "A", "B+", etc.
 
-    def to_dict(self):
-        return {"id": self.id, "name": self.name, "grade": self.grade}
+    student = db.relationship("User", foreign_keys=[student_id])
+    course = db.relationship("Course", foreign_keys=[course_id])

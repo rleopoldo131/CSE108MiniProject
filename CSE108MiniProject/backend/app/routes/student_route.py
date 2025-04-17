@@ -56,30 +56,6 @@ def get_student_courses():
     ]), 200
 
 
-# @bp.route("/student/courses", methods=["GET"])
-# @jwt_required()
-# def get_my_courses():
-#     user_id = get_jwt_identity()
-#     student = User.query.get(user_id)
-#     return jsonify([
-#         {
-#             "id": c.id,
-#             "title": c.title,
-#             "capacity": c.capacity
-#         }
-#         for c in student.courses
-#     ]), 200
-# @bp.route("/student/courses", methods=["GET"])
-# @jwt_required()
-# def get_mystudent_courses():
-#     try:
-#         user_id = get_jwt_identity()
-#         print("JWT user ID (from /student/courses):", user_id)
-#     except Exception as e:
-#         print("JWT error in /student/courses:", str(e))
-
-
-
 
 @bp.route("/student/enroll", methods=["POST"])
 @jwt_required()

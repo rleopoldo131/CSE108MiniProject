@@ -1,111 +1,141 @@
-import React, { useState, useEffect } from 'react';
-import './TeacherPage.css';
-// import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import LogoutButton from "../../components/LogoutButton/LogoutButton";
 
-
-
 function TeacherPage() {
-  const [grades, setGrades] = useState([]);
-  const [name, setName] = useState('');
-  const [grade, setGrade] = useState('');
-  const [searchName, setSearchName] = useState('');
-  const [searchResult, setSearchResult] = useState('');
-  
+  const [courses, setCourses] = useState([]);
+  const [grades, setGrades] = useState({});
+  const [editing, setEditing] = useState({}); // 
 
   useEffect(() => {
-    fetch('/api/grades')
-      .then(res => res.json())
-      .then(data => setGrades(data));
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/teacher/courses", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setCourses(res.data);
+
+       
+        const initialGrades = {};
+        const initialEditing = {};
+        res.data.forEach((course) => {
+          course.students.forEach((student) => {
+            const key = `${student.id}-${course.id}`;
+            initialGrades[key] = student.grade || "";
+            initialEditing[key] = false;
+          });
+        });
+
+        setGrades(initialGrades);
+        setEditing(initialEditing);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch courses:", err);
+      });
   }, []);
 
-  const addGrade = async () => {
-    if (!name || !grade) return alert('Enter both name and grade.');
-
-    const response = await fetch('/api/grades', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, grade: parseFloat(grade) })
-    });
-
-    if (response.ok) {
-      setGrades([...grades, { name, grade }]);
-      setName('');
-      setGrade('');
-    } else {
-      alert('Failed to add grade.');
-    }
+  const handleGradeChange = (studentId, courseId, value) => {
+    setGrades((prev) => ({
+      ...prev,
+      [`${studentId}-${courseId}`]: value,
+    }));
   };
 
-  const editGrade = async (nameToEdit) => {
-    const newGrade = prompt(`Enter new grade for ${nameToEdit}`);
-    if (newGrade === null) return;
+  const submitGrade = (studentId, courseId) => {
+    const token = localStorage.getItem("token");
+    const key = `${studentId}-${courseId}`;
+    const gradeValue = grades[key];
 
-    const response = await fetch(`/api/grades/${nameToEdit}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ grade: parseFloat(newGrade) })
-    });
-
-    if (response.ok) {
-      setGrades(grades.map(g => g.name === nameToEdit ? { ...g, grade: newGrade } : g));
-    }
+    axios
+      .post(
+        "http://localhost:5000/api/teacher/grade",
+        {
+          student_id: studentId,
+          course_id: courseId,
+          grade: gradeValue,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        alert("Grade submitted");
+        //  Exit edit mode
+        setEditing((prev) => ({ ...prev, [key]: false }));
+      })
+      .catch((err) => console.error("Submit error:", err));
   };
-
-  const deleteGrade = async (nameToDelete) => {
-    if (!window.confirm(`Delete ${nameToDelete}'s grade?`)) return;
-
-    const response = await fetch(`/api/grades/${nameToDelete}`, {
-      method: 'DELETE'
-    });
-
-    if (response.ok) {
-      setGrades(grades.filter(g => g.name !== nameToDelete));
-    }
-  };
-
-  const searchGrade = async () => {
-    const response = await fetch(`/api/grades/${searchName}`);
-    if (response.status === 404) {
-      setSearchResult('Student not found.');
-    } else {
-      const data = await response.json();
-      setSearchResult(`${searchName}'s grade is ${data.grade}`);
-    }
-  };
-  
 
   return (
-    <div className="container">
-      <h1>Students</h1>
-      <div>
-        <input value={name} onChange={e => setName(e.target.value)} placeholder="Student Name" />
-        <input value={grade} onChange={e => setGrade(e.target.value)} placeholder="Grade" type="number" />
-        <button className="add" onClick={addGrade}>Add Grade</button>
-      </div>
-      <h3>Search Grade by Name</h3>
-      <input value={searchName} onChange={e => setSearchName(e.target.value)} placeholder="Student Name" />
-      <button onClick={searchGrade}>Search</button>
-      <p id="searchResult">{searchResult}</p>
-      <table>
-        <thead>
-          <tr><th>Name</th><th>Grade</th><th>Actions</th></tr>
-        </thead>
-        <tbody>
-          {grades.map(g => (
-            <tr key={g.name}>
-              <td>{g.name}</td>
-              <td>{g.grade}</td>
-              <td>
-                <button className="edit" onClick={() => editGrade(g.name)}>Edit</button>
-                <button className="delete" onClick={() => deleteGrade(g.name)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      
-        <LogoutButton />
+    <div className="page-container">
+      <h1>Your Assigned Courses</h1>
+      {courses.map((course) => (
+        <div key={course.id} className="course-card">
+          <h3>
+            {course.title} ({course.time})
+          </h3>
+          <p>Capacity: {course.capacity}</p>
+          <h4>Enrolled Students:</h4>
+          <ul>
+            {course.students.length === 0 ? (
+              <li>No students enrolled</li>
+            ) : (
+              course.students.map((student) => {
+                const key = `${student.id}-${course.id}`;
+                const isEditing = editing[key];
+
+                return (
+                  <li key={student.id}>
+                    {student.firstName} {student.lastName} ({student.username}){" "}
+                    {isEditing ? (
+                      <>
+                        <input
+                          type="text"
+                          placeholder="Grade"
+                          value={grades[key] || ""}
+                          onChange={(e) =>
+                            handleGradeChange(
+                              student.id,
+                              course.id,
+                              e.target.value
+                            )
+                          }
+                          style={{ marginLeft: "10px" }}
+                        />
+                        <button
+                          onClick={() => submitGrade(student.id, course.id)}
+                          style={{ marginLeft: "5px" }}
+                        >
+                          Save
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <strong style={{ marginLeft: "10px" }}>
+                          {grades[key] || "No grade"}
+                        </strong>
+                        <button
+                          onClick={() =>
+                            setEditing((prev) => ({
+                              ...prev,
+                              [key]: true,
+                            }))
+                          }
+                          style={{ marginLeft: "10px" }}
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+                  </li>
+                );
+              })
+            )}
+          </ul>
+        </div>
+      ))}
+      <LogoutButton />
     </div>
   );
 }
