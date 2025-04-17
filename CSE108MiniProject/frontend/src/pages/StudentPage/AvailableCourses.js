@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const AvailableCourses = () => {
   const [allCourses, setAllCourses] = useState([]);
   const [enrolledIds, setEnrolledIds] = useState([]);
   const [messages, setMessages] = useState({});
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const fetchData = async () => {
     const token = localStorage.getItem("token");
@@ -73,6 +75,7 @@ const AvailableCourses = () => {
 
   return (
     <div>
+      <button onClick={() => navigate("/studentpage")}>Back to Student Dashboard</button> {/* Back Button */}
       <h2>All Courses</h2>
       {allCourses.length === 0 ? (
         <p>No courses found.</p>

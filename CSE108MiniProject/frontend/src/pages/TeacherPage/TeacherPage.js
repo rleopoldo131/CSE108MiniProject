@@ -5,7 +5,7 @@ import LogoutButton from "../../components/LogoutButton/LogoutButton";
 function TeacherPage() {
   const [courses, setCourses] = useState([]);
   const [grades, setGrades] = useState({});
-  const [editing, setEditing] = useState({}); // 
+  const [editing, setEditing] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -16,7 +16,6 @@ function TeacherPage() {
       .then((res) => {
         setCourses(res.data);
 
-       
         const initialGrades = {};
         const initialEditing = {};
         res.data.forEach((course) => {
@@ -61,7 +60,6 @@ function TeacherPage() {
       )
       .then(() => {
         alert("Grade submitted");
-        //  Exit edit mode
         setEditing((prev) => ({ ...prev, [key]: false }));
       })
       .catch((err) => console.error("Submit error:", err));
@@ -70,71 +68,108 @@ function TeacherPage() {
   return (
     <div className="page-container">
       <h1>Your Assigned Courses</h1>
-      {courses.map((course) => (
-        <div key={course.id} className="course-card">
-          <h3>
-            {course.title} ({course.time})
-          </h3>
-          <p>Capacity: {course.students.length}/{course.capacity}</p>
-          <h4>Enrolled Students:</h4>
-          <ul>
-            {course.students.length === 0 ? (
-              <li>No students enrolled</li>
-            ) : (
-              course.students.map((student) => {
-                const key = `${student.id}-${course.id}`;
-                const isEditing = editing[key];
 
-                return (
-                  <li key={student.id}>
-                    {student.firstName} {student.lastName}{" "}
-                    {isEditing ? (
-                      <>
-                        <input
-                          type="text"
-                          placeholder="Grade"
-                          value={grades[key] || ""}
-                          onChange={(e) =>
-                            handleGradeChange(
-                              student.id,
-                              course.id,
-                              e.target.value
-                            )
-                          }
-                          style={{ marginLeft: "10px" }}
-                        />
-                        <button
-                          onClick={() => submitGrade(student.id, course.id)}
-                          style={{ marginLeft: "5px" }}
-                        >
-                          Save
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <strong style={{ marginLeft: "10px" }}>
-                          {grades[key] ? `${grades[key]}%` : "No grade"}
-                        </strong>
-                        <button
-                          onClick={() =>
-                            setEditing((prev) => ({
-                              ...prev,
-                              [key]: true,
-                            }))
-                          }
-                          style={{ marginLeft: "10px" }}
-                        >
-                          Edit
-                        </button>
-                      </>
-                    )}
-                  </li>
-                );
-              })
-            )}
-          </ul>
-        </div>
-      ))}
+      {/* Courses Table */}
+      <table border="1" style={{ width: "100%", marginBottom: "20px" }}>
+        <thead>
+          <tr>
+            <th>Course Title</th>
+            <th>Time</th>
+            <th>Capacity</th>
+            <th>Enrolled Students</th>
+          </tr>
+        </thead>
+        <tbody>
+          {courses.map((course) => (
+            <tr key={course.id}>
+              <td>{course.title}</td>
+              <td>{course.time}</td>
+              <td>{course.students.length}/{course.capacity}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    const updatedCourses = courses.map((c) =>
+                      c.id === course.id
+                        ? { ...c, showStudents: !c.showStudents }
+                        : c
+                    );
+                    setCourses(updatedCourses);
+                  }}
+                >
+                  {course.showStudents ? "Hide Students" : "Show Students"}
+                </button>
+                {course.showStudents && (
+                  <table border="1" style={{ width: "100%", marginTop: "10px" }}>
+                    <thead>
+                      <tr>
+                        <th>Student Name</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {course.students.map((student) => {
+                        const key = `${student.id}-${course.id}`;
+                        const isEditing = editing[key];
+
+                        return (
+                          <tr key={student.id}>
+                            <td>
+                              {student.firstName} {student.lastName}
+                            </td>
+                            <td>
+                              {isEditing ? (
+                                <input
+                                  type="text"
+                                  placeholder="Grade"
+                                  value={grades[key] || ""}
+                                  onChange={(e) =>
+                                    handleGradeChange(
+                                      student.id,
+                                      course.id,
+                                      e.target.value
+                                    )
+                                  }
+                                  style={{ marginLeft: "10px" }}
+                                />
+                              ) : (
+                                <strong>{grades[key] || "No grade"}</strong>
+                              )}
+                            </td>
+                            <td>
+                              {isEditing ? (
+                                <button
+                                  onClick={() => submitGrade(student.id, course.id)}
+                                  style={{ marginLeft: "5px" }}
+                                >
+                                  Save
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() =>
+                                    setEditing((prev) => ({
+                                      ...prev,
+                                      [key]: true,
+                                    }))
+                                  }
+                                  style={{ marginLeft: "10px" }}
+                                >
+                                  Edit
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <LogoutButton />
     </div>
   );

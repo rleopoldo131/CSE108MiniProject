@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const MyCourses = () => {
   const [myCourses, setMyCourses] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const fetchMyCourses = async () => {
     const token = localStorage.getItem("token");
@@ -12,7 +14,6 @@ const MyCourses = () => {
     }
 
     const headers = {
-    
       Authorization: `Bearer ${token}`,
     };
 
@@ -46,6 +47,7 @@ const MyCourses = () => {
 
   return (
     <div>
+      <button onClick={() => navigate("/studentpage")}>Back to Student Dashboard</button> {/* Back Button */}
       <h2>My Enrolled Courses</h2>
       {myCourses.length === 0 ? (
         <p>You are not enrolled in any courses.</p>
@@ -57,8 +59,7 @@ const MyCourses = () => {
               Time: {course.time}<br />
               Capacity: {course.capacity}{" "}
               <button onClick={() => handleDrop(course.id)}>Drop</button>
-              </li>
-
+            </li>
           ))}
         </ul>
       )}
