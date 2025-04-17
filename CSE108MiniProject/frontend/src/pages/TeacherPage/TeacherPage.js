@@ -75,7 +75,7 @@ function TeacherPage() {
           <h3>
             {course.title} ({course.time})
           </h3>
-          <p>Capacity: {course.capacity}</p>
+          <p>Capacity: {course.students.length}/{course.capacity}</p>
           <h4>Enrolled Students:</h4>
           <ul>
             {course.students.length === 0 ? (
@@ -87,7 +87,7 @@ function TeacherPage() {
 
                 return (
                   <li key={student.id}>
-                    {student.firstName} {student.lastName} ({student.username}){" "}
+                    {student.firstName} {student.lastName}{" "}
                     {isEditing ? (
                       <>
                         <input
@@ -113,7 +113,7 @@ function TeacherPage() {
                     ) : (
                       <>
                         <strong style={{ marginLeft: "10px" }}>
-                          {grades[key] || "No grade"}
+                          {grades[key] ? `${grades[key]}%` : "No grade"}
                         </strong>
                         <button
                           onClick={() =>
