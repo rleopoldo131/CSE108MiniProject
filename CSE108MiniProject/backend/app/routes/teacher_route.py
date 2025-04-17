@@ -7,16 +7,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token,jwt_req
 
 bp = Blueprint("teacher_routes", __name__)
 
-@bp.route("/grades", methods=["GET"])
-def get_grades():
-    return jsonify([g.to_dict() for g in Grade.query.all()])
 
-@bp.route("/grades/<name>", methods=["GET"])
-def get_grade(name):
-    grade = Grade.query.filter_by(name=name).first()
-    if grade:
-        return jsonify(grade.to_dict())
-    return jsonify({"error": "Student not found"}), 404
 @bp.route('/api/refresh', methods=['POST'])
 @jwt_required(refresh=True)
 def refresh():
@@ -49,3 +40,29 @@ def get_teacher_courses():
             "capacity": c.capacity or "N/A"
         } for c in teaching_courses
     ]), 200
+@bp.route("/teacher/courses/<int:course_id>/roster", methods=["GET"])
+@jwt_required()
+def get_course_roster(course_id):
+    teacher_id = get_jwt_identity()
+
+    course = Course.query.filter_by(id=course_id, teacher_id=teacher_id).first()
+
+    if not course:
+        return jsonify({"error": "Course not found or not taught by you"}), 404
+
+    students = course.students  # This should be a list of enrolled students
+
+    # Prepare the roster data
+    roster = []
+    for student in students:
+        # If the student's grade is null, set it to an empty string
+        grade = student.grade if student.grade is not None else ""
+
+        roster.append({
+            "id": student.id,
+            "firstName": student.firstName,
+            "lastName": student.lastName,
+            "grade": grade  # Now we send grade as an empty string if it's null
+        })
+
+    return jsonify(roster), 200

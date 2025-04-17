@@ -16,6 +16,7 @@ from flask_jwt_extended import JWTManager
 from app.models.users import User
 from app.models.grade import Grade
 from app.models.course import Course
+
 from app.database import db
 
 from app.routes.teacher_route import bp as teacher_bp
@@ -75,8 +76,6 @@ class CourseAdmin(ModelView):
         form_class.teacher.query_factory = lambda: User.query.filter_by(role='teacher').all()
 
         return form_class
-
-
 
 def create_app():
     app = Flask(__name__)

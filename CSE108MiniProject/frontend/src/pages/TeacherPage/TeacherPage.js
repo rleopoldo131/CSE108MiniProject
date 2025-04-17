@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './TeacherPage.css';
+import { useNavigate, Link } from "react-router-dom";
 import LogoutButton from "../../components/LogoutButton/LogoutButton";
 import axios from 'axios';
 
@@ -53,7 +54,9 @@ const TeacherPage = () => {
               <td>{course.time}</td>
               <td>{course.capacity}</td>
               <td>
-
+              <Link to={`/teacher/courses/${course.id}`}>
+              <button className="view-roster-button">View Roster</button>
+              </Link>
                 
               </td>
             </tr>

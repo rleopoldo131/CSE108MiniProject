@@ -8,6 +8,7 @@ import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 
 import TeacherPage from './pages/TeacherPage/TeacherPage';
+import TeacherCourse from './pages/TeacherPage/TeacherCourse';
 import StudentPage from './pages/StudentPage/StudentPage';
 import MyCourses from './pages/StudentPage/MyCourses';
 import AvailableCourses from './pages/StudentPage/AvailableCourses';
@@ -63,6 +64,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+          path="/teacher/courses/:courseId"
+          element={<TeacherCourse />}
+        />
           <Route path="/admin" element={<Admin />} />
 
         </Routes>
