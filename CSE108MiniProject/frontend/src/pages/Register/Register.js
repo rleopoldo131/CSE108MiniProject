@@ -104,7 +104,7 @@ const Register = () => {
           {message && <p>{message}</p>}
 
           {/* Back Button to navigate to Home.js */}
-          <button onClick={() => navigate("/")}>Back to Home</button> {/* Back to Home button */}
+          <button onClick={() => navigate("/")}>Back to Home</button> 
         </div>
       </div>
     </div>

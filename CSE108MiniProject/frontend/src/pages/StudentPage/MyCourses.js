@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 
 const MyCourses = () => {
   const [myCourses, setMyCourses] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   const fetchMyCourses = async () => {
     const token = localStorage.getItem("token");
@@ -35,7 +35,7 @@ const MyCourses = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      fetchMyCourses(); // refresh after drop
+      fetchMyCourses(); 
     } catch (err) {
       console.error("Failed to drop course:", err);
     }
@@ -47,7 +47,7 @@ const MyCourses = () => {
 
   return (
     <div>
-      <button onClick={() => navigate("/studentpage")}>Back to Student Dashboard</button> {/* Back Button */}
+      <button onClick={() => navigate("/studentpage")}>Back to Student Dashboard</button> 
       <h2>My Enrolled Courses</h2>
       {myCourses.length === 0 ? (
         <p>You are not enrolled in any courses.</p>
