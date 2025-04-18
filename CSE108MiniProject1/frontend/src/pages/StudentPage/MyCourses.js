@@ -78,9 +78,10 @@ const MyCourses = () => {
                   <strong>{course.title}</strong> — Professor: {course.teacher}<br />
                   Time: {course.time}<br />
                   Capacity: {course.capacity}<br />
+                  Grade: <strong>{course.grade || "N/A"}</strong><br />
                   <button onClick={() => handleDrop(course.id)}>Drop</button>
                 </li>
-              ))}
+            ))}
           </ul>
         )}
       </div>
