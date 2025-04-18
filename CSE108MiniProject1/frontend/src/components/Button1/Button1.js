@@ -1,0 +1,10 @@
+// src/components/Button1.js
+import React from "react";
+import "./Button1.css";
+
+const Button1 = ({ type, label }) => {
+  return <button type={type} className="button1">{label}</button>;
+};
+
+
+export default Button1;

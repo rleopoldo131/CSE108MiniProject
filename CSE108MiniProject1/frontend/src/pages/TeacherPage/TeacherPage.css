@@ -1,0 +1,98 @@
+.teacher-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #003262, #FDB515);
+  padding: 20px;
+}
+
+.teacher-card {
+  background-color: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1000px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.teacher-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #003262;
+  margin-bottom: 20px;
+}
+
+.teacher-subtitle {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 24px;
+}
+
+.student-search {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 14px;
+  margin: 20px auto 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: block;
+}
+
+.teacher-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.teacher-table th,
+.teacher-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.teacher-table th {
+  background-color: #f0f0f0;
+  color: #003262;
+}
+
+.action-button,
+.grade-button {
+  background-color: #003262;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover,
+.grade-button:hover {
+  background-color: #001f4d;
+}
+
+.logout-btn {
+  margin-top: 20px;
+  background-color: #003262;
+  color: white !important;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.logout-btn:hover {
+  background-color: #001f4d;
+  color: white;
+}

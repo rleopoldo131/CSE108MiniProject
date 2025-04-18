@@ -1,0 +1,62 @@
+.admin-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #003262, #FDB515);
+    padding: 20px;
+  }
+  
+  .admin-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  .admin-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #003262;
+  }
+  
+  .admin-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .admin-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .admin-submit {
+    background-color: #003262;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .admin-submit:hover {
+    background-color: #001f4d;
+  }
+  
+  .admin-error {
+    margin-top: 10px;
+    color: red;
+    font-weight: bold;
+  }
+  

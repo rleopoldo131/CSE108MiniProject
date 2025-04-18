@@ -1,0 +1,19 @@
+.button1 {
+  background-color: #003262;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  display: block;
+}
+
+.button1:hover {
+  background-color: #001f4d;
+}

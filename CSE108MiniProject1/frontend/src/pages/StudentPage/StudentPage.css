@@ -1,0 +1,84 @@
+.student-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #003262, #FDB515);
+    padding: 20px;
+  }
+  
+  .student-card {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  .student-logo {
+    width: 120px;
+    margin-bottom: 20px;
+  }
+  
+  .student-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #003262;
+    margin-bottom: 10px;
+  }
+  
+  .student-subtitle {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 24px;
+  }
+  
+  .student-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 10px;
+  }
+  
+  .student-link {
+    padding: 14px;
+    background-color: #003262;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+  }
+  
+  .student-link:hover {
+    background-color: #001f4d;
+    color: white;
+  }
+
+  .student-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logout-btn {
+    background-color: #003262;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #001f4d;
+  }
+  
