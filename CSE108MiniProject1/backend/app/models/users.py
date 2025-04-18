@@ -18,7 +18,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False) #user username 
     password = db.Column(db.String(200), nullable=False) #user pass word inthe database
     role = db.Column(db.String(20), nullable=False)  # 'student', 'teacher', 'admin'
-    courses = db.relationship('Course', secondary=student_courses, backref='students')#storing courses
+    # courses = db.relationship('Course', secondary=student_courses, backref='students')#storing courses
     
     
     def __repr__(self):
