@@ -37,23 +37,28 @@ def get_all_courses():
 def get_student_courses():
     print("✅ BACKEND: hit get_student_courses()")
 
-    student_id = int(get_jwt_identity())  # 
+    student_id = int(get_jwt_identity())  # Get student ID from token
     print("JWT user ID (from /student/courses):", student_id)
 
     student = User.query.get(student_id)
     if not student:
         return jsonify({"msg": "Student not found"}), 404
 
-    enrolled_courses = student.courses
+    enrolled_courses = student.enrolled_courses
+
     return jsonify([
         {
             "id": c.id,
             "title": c.title,
             "capacity": c.capacity,
             "teacher": f"{c.teacher.firstName} {c.teacher.lastName}" if c.teacher else "Unassigned",
-            "time": c.time or "TBD"
+            "time": c.time or "TBD",
+            "grade": next(  # This grabs the student's grade for the course
+                (g.grade for g in c.grades if g.student_id == student_id), None
+            )
         } for c in enrolled_courses
     ]), 200
+
 
 
 
