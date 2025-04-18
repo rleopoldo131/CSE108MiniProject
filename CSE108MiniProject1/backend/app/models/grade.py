@@ -3,6 +3,7 @@
 from app.database import db
 
 class Grade(db.Model):
+    __tablename__ = "grade"
     id = db.Column(db.Integer, primary_key=True)#making user id column in database
     student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)#studnet id column
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)# course id column
