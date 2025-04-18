@@ -5,33 +5,6 @@ body, html {
     font-family: sans-serif;
   }
 
-/*.home-container { used now for page-container2 same content 
-
-    display: flex; flexible layouts
-    flex-direction: column; Align items in a column 
-    justify-content: flex-start;
-    align-items: center;
-
-    padding: 0px 50px;
-    border-radius: 10px;
-    
-    min-width : 80vw;
-    min-height: 80vh;
-   
-
-
-    background-color: #f0f0f0;
-}*/
-/* .welcomeTitle{
-
-
-
-    font-size: 2.5rem;
-    color: #333;
-    
-
-
-} */
 .homepage-buttons{
     display: flex;
     padding-top: 9%;

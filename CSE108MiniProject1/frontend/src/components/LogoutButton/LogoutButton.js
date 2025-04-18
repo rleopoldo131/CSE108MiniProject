@@ -1,13 +1,13 @@
 // components/LogoutButton.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./LogoutButton.css"; // Import your CSS file for styling
+import "./LogoutButton.css"; // Import CSS file for styling
 
-const LogoutButton = () => {
-  const navigate = useNavigate();
+const LogoutButton = () => {//how logout function operates
+  const navigate = useNavigate();//naviagtion 
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("user");//remove from storage to register no user on web app 
     navigate("/");
   };
 
@@ -15,7 +15,7 @@ const LogoutButton = () => {
     <button className="logout-btn" onClick={handleLogout}>
       Logout
     </button>
-  );
+  );//button for logout
 };
 
 export default LogoutButton;

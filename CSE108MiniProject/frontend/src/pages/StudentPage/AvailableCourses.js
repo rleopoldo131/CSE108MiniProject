@@ -3,10 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 
 const AvailableCourses = () => {
-  const [allCourses, setAllCourses] = useState([]);
-  const [enrolledIds, setEnrolledIds] = useState([]);
-  const [messages, setMessages] = useState({});
-  const navigate = useNavigate(); 
+  const [allCourses, setAllCourses] = useState([]);//data holding all courses in database
+  const [enrolledIds, setEnrolledIds] = useState([]);//data for all ids for specfic user enrolled courses
+  const [messages, setMessages] = useState({}); 
+  const navigate = useNavigate(); //navigating function call
 
   const fetchData = async () => {
     const token = localStorage.getItem("token");
@@ -16,7 +16,7 @@ const AvailableCourses = () => {
     }
 
     try {
-      const [allRes, myRes] = await Promise.all([
+      const [allRes, myRes] = await Promise.all([//gettign data from api/course for all courses in database
         axios.get("/api/courses/all", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,9 +31,9 @@ const AvailableCourses = () => {
         })
       ]);
 
-      setAllCourses(allRes.data);
+      setAllCourses(allRes.data);//set data into use state
       const myCourseIds = myRes.data.map((course) => course.id);
-      setEnrolledIds(myCourseIds);
+      setEnrolledIds(myCourseIds);//set data into enrolled id
     } catch (err) {
       console.error("Failed to fetch courses:", err);
     }

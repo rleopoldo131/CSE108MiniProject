@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button1 from "../../components/Button1/Button1";
-import "./Register.css"; // Import your CSS file for styling
+import "./Register.css"; // Import CSS file for styling
 
 const Register = () => {
   const [formData, setFormData] = useState({

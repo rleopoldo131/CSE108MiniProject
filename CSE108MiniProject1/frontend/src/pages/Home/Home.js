@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
-import ucmLogo from '../../assets/Uc_merced_logo.png'; // adjust path if needed
+import ucmLogo from '../../assets/Uc_merced_logo.png'; 
 
-function Home() {
+function Home() {//main parent function that will store everything else -> export Home
   return (
     <div className="home-wrapper">
       <div className="home-card">

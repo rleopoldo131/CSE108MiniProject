@@ -5,8 +5,6 @@ import './Home.css';
 
 function Home(){//main parent function that will store everything else -> export Home
 
-    //
-    //const
 return (
     <div className= "page-container"> {/*from app.css*/}
   

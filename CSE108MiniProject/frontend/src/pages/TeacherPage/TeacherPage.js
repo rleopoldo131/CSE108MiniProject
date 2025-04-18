@@ -3,22 +3,22 @@ import axios from "axios";
 import LogoutButton from "../../components/LogoutButton/LogoutButton";
 
 function TeacherPage() {
-  const [courses, setCourses] = useState([]);
-  const [grades, setGrades] = useState({});
-  const [editing, setEditing] = useState({});
+  const [courses, setCourses] = useState([]);//use state to store all courses for teacher id is associated to
+  const [grades, setGrades] = useState({});// use state for grades for their students in course
+  const [editing, setEditing] = useState({});// use state for edit state  of info in the teacher web app
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");//grabs token for access of teacher page
     axios
-      .get("http://localhost:5000/api/teacher/courses", {
+      .get("http://localhost:5000/api/teacher/courses", {//calling api
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        setCourses(res.data);
+        setCourses(res.data);//put all courses teacher associate into use state 
 
         const initialGrades = {};
         const initialEditing = {};
-        res.data.forEach((course) => {
+        res.data.forEach((course) => {//for each coruse store the student and their grade into the usestate 
           course.students.forEach((student) => {
             const key = `${student.id}-${course.id}`;
             initialGrades[key] = student.grade || "";
@@ -26,22 +26,22 @@ function TeacherPage() {
           });
         });
 
-        setGrades(initialGrades);
-        setEditing(initialEditing);
+        setGrades(initialGrades);//store grades 
+        setEditing(initialEditing);//store edit boolean
       })
       .catch((err) => {
         console.error("Failed to fetch courses:", err);
       });
   }, []);
 
-  const handleGradeChange = (studentId, courseId, value) => {
+  const handleGradeChange = (studentId, courseId, value) => {//when grade is change find associoated id then get new values
     setGrades((prev) => ({
       ...prev,
       [`${studentId}-${courseId}`]: value,
     }));
   };
 
-  const submitGrade = (studentId, courseId) => {
+  const submitGrade = (studentId, courseId) => {//submit chnages of new grade
     const token = localStorage.getItem("token");
     const key = `${studentId}-${courseId}`;
     const gradeValue = grades[key];

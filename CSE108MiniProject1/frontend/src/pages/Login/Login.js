@@ -6,18 +6,18 @@ import Button1 from "../../components/Button1/Button1";
 import ucmLogo from "../../assets/Uc_merced_logo.png";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+  const navigate = useNavigate();//navigate function call
+  const [formData, setFormData] = useState({//data in login forms
+    username: "",//gather username
+    password: "",//gather password both are strings
   });
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("user");//get associate user
     if (storedUser) {
       try {
-        const user = JSON.parse(storedUser);
+        const user = JSON.parse(storedUser);//depding on what role user has open the sepcfic web app page
         if (user?.role === "student") navigate("/studentpage");
         else if (user?.role === "teacher") navigate("/teacherpage");
         else if (user?.role === "admin") window.location.href = "http://127.0.0.1:5000/admin";
@@ -34,10 +34,11 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {//submition of login data 
+    e.preventDefault();
     e.preventDefault();
     try {
-      const res = await axios.post("http://127.0.0.1:5000/api/login", formData);
+      const res = await axios.post("http://127.0.0.1:5000/api/login", formData);//token is returned in the response for authentication
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 

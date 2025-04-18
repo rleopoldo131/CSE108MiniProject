@@ -8,21 +8,21 @@ import Button1 from "../../components/Button1/Button1";
 
 
 const Login = () => {
-        const navigate = useNavigate();
-        const [formData, setFormData] = useState({
+        const navigate = useNavigate();//navigate function call
+        const [formData, setFormData] = useState({ //data in login forms
 
-          username: "",
-          password: "",
+          username: "",//gather username
+          password: "",//gather password both are strings
         });
         const [message, setMessage] = useState("");
 
 
 
         useEffect(() => {
-          const storedUser = localStorage.getItem("user");
+          const storedUser = localStorage.getItem("user");//get associate user 
           if (storedUser) {
             try {
-              const user = JSON.parse(storedUser);
+              const user = JSON.parse(storedUser);//depding on what role user has open the sepcfic web app page
               if (user?.role === "student") navigate("/studentpage");
               else if (user?.role === "teacher") navigate("/teacherpage");
               else if (user?.role === "admin") window.location.href = "http://localhost:5000/admin";
@@ -38,7 +38,7 @@ const Login = () => {
           }));
         };
       
-        const handleSubmit = async (e) => {
+        const handleSubmit = async (e) => {//submition of login data 
           e.preventDefault();
           try {
             const res = await axios.post("http://localhost:5000/api/login", formData);

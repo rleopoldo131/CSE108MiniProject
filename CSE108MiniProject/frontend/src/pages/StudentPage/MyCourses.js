@@ -3,11 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 
 const MyCourses = () => {
-  const [myCourses, setMyCourses] = useState([]);
+  const [myCourses, setMyCourses] = useState([]);//user courses array to hold data
   const navigate = useNavigate(); 
 
   const fetchMyCourses = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");//token for user access
     if (!token) {
       console.warn("No token found. User may not be logged in.");
       return;
@@ -18,14 +18,14 @@ const MyCourses = () => {
     };
 
     try {
-      const res = await axios.get("/api/student/courses", { headers });
+      const res = await axios.get("/api/student/courses", { headers });//access apo for their course associate to their user id
       setMyCourses(res.data);
     } catch (err) {
       console.error("Failed to fetch my courses:", err);
     }
   };
 
-  const handleDrop = async (courseId) => {
+  const handleDrop = async (courseId) => {//handle droping a course taking course off database of mycourses
     const token = localStorage.getItem("token");
     try {
       await axios.post(
@@ -42,7 +42,7 @@ const MyCourses = () => {
   };
 
   useEffect(() => {
-    fetchMyCourses();
+    fetchMyCourses();//calling to get all courses user enrolled into
   }, []);
 
   return (

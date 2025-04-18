@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
 const Admin = () => {
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState("");//password for admin access
+  const [error, setError] = useState("");//error display for errors
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === "admin123") {
-      window.open("http://localhost:5000/admin/", "_blank");
+    if (password === "admin123") { //havign admin passcode
+      window.open("http://localhost:5000/admin/", "_blank");//opening localhost for admin web app 
       setError("");
     } else {
-      setError("Incorrect password.");
+      setError("Incorrect password.");//if wrong diplay error
     }
   };
 

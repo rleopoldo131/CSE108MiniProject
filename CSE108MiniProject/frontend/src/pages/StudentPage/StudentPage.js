@@ -6,7 +6,7 @@ const StudentPage = () => {
   const navigate = useNavigate();
 
   let user = null;
-  const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("user");//getting userid to open student page which show two option 
   try {
     user = storedUser ? JSON.parse(storedUser) : null;
   } catch (e) {

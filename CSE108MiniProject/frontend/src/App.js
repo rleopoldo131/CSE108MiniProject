@@ -15,9 +15,7 @@ import AvailableCourses from './pages/StudentPage/AvailableCourses';
 import Admin from "./pages/Admin/Admin";
 
 
-
-//global style
-import ProtectedRoute from "./components/ProtectedRoutes";
+import ProtectedRoute from "./components/ProtectedRoutes";//global style
 
 import './App.css';
 

@@ -2,7 +2,7 @@
 import React from "react";
 import "./Button1.css";
 
-const Button1 = ({ type, label }) => {
+const Button1 = ({ type, label }) => {//making a button for web app
   return <button type={type} className="button1">{label}</button>;
 };
 

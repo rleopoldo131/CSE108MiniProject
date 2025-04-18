@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button1 from "../../components/Button1/Button1";
-import "./Register.css"; // Import your CSS file for styling
-import ucmLogo from "../../assets/Uc_merced_logo.png"; // add this if not already
+import "./Register.css"; // Import CSS file for styling
+import ucmLogo from "../../assets/Uc_merced_logo.png"; 
 
 const Register = () => {
   const [formData, setFormData] = useState({
